@@ -1,0 +1,19 @@
+{
+	"name": "Go",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"golang.Go",
+				"lorenzotinfena.go-aggregator"
+			],
+			"settings": {
+				"gopls": {
+					"formatting.gofumpt": true
+				}
+			}
+		}
+	}
+}
