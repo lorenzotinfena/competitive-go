@@ -4,8 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-
-	"golang.org/x/exp/constraints"
 )
 
 // When debug is assumed that input.txt file exists
@@ -15,7 +13,8 @@ func main() {
 	}
 	for _, arg := range os.Args {
 		if arg == "∰" { // this should be passed only when debugging
-			io.r = bufio.NewReader(First(os.Open("input.txt")))
+			f, _ := os.Open("input.txt")
+			io.r = bufio.NewReader(f)
 			goto here
 		}
 	}
@@ -51,43 +50,5 @@ func (io *IO) Print(x ...any)   { fmt.Fprint(io.w, x...) }
 func (io *IO) PrintLn(x ...any) { fmt.Fprintln(io.w, x...) }
 
 func (io *IO) Flush() { io.w.Flush() }
-
-// #endregion
-
-// #region Useful names
-
-func First[T any](a T, _ any) T { return a }
-
-func Second[T any](_ any, a T) T { return a }
-
-func Max[T constraints.Ordered](a, b T) T {
-	if a >= b {
-		return a
-	}
-	return b
-}
-
-func Min[T constraints.Ordered](a, b T) T {
-	if a <= b {
-		return a
-	}
-	return b
-}
-
-func Abs[T constraints.Integer | constraints.Float](a T) T {
-	if a < 0 {
-		return -a
-	}
-	return a
-}
-
-func Swap[T any](a, b *T) {
-	*a, *b = *b, *a
-}
-
-type Iterator[T any] interface {
-	HasNext() bool
-	Next() T
-}
 
 // #endregion
