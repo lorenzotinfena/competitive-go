@@ -18,7 +18,7 @@ For each problem:
 If you want to solve multiple problems simultanously (like in contests) you can just backup your multiple solution.go somewhere.
 
 # Limitations
-All the code (main package + non standard libraries imported):
+All the code (main package + non standard libraries imported (testing files are excluded)):
 - Should have all the exported and unexported names different
 - In the same file: literal strings or characters cannot contain aliases of non standard libraries
 - Should be formatted with gofmt
