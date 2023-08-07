@@ -52,3 +52,23 @@ func (io *IO) PrintLn(x ...any) { fmt.Fprintln(io.w, x...) }
 func (io *IO) Flush() { io.w.Flush() }
 
 // #endregion
+
+// #region USEFUL FUNCTIONS
+
+// Variations:
+// Sli(): empty slice
+// Sli(n): slice with size n
+// Sli(n, c): Slice with size n and capacity c
+func Sli[T any](args ...int) []T {
+	switch len(args) {
+	case 0:
+		return []T{}
+	case 1:
+		return make([]T, args[0])
+	case 2:
+		return make([]T, args[0], args[1])
+	}
+	panic("Sli invalid args")
+}
+
+// #endregion
