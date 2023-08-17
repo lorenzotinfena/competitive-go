@@ -49,4 +49,20 @@ func Sli[T any](args ...int) []T {
 	panic("Sli invalid args")
 }
 
+// Variations:
+// Slint(): empty slice
+// Slint(n): slice with size n
+// Slint(n, c): Slice with size n and capacity c
+func Slint(args ...int) []int {
+	switch len(args) {
+	case 0:
+		return []int{}
+	case 1:
+		return make([]int, args[0])
+	case 2:
+		return make([]int, args[0], args[1])
+	}
+	panic("Sli invalid args")
+}
+
 // #endregion
