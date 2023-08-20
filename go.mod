@@ -2,4 +2,4 @@ module main
 
 go 1.20
 
-require github.com/lorenzotinfena/goji v0.0.0-20230815135954-64295f430667
+require github.com/lorenzotinfena/goji v0.0.0-20230820150932-657276cd8ad9
