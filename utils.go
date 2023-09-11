@@ -33,36 +33,12 @@ func (io *IO) Flush() { io.w.Flush() }
 
 // #region USEFUL FUNCTIONS
 
-// Variations:
-// Sli(): empty slice
-// Sli(n): slice with size n
-// Sli(n, c): Slice with size n and capacity c
-func Sli[T any](args ...int) []T {
-	switch len(args) {
-	case 0:
-		return []T{}
-	case 1:
-		return make([]T, args[0])
-	case 2:
-		return make([]T, args[0], args[1])
+func (io *IO) ScanSliceInt(length int) []int {
+	res := make([]int, length)
+	for i := 0; i < length; i++ {
+		res[i] = io.ScanInt()
 	}
-	panic("Sli invalid args")
-}
-
-// Variations:
-// Slint(): empty slice
-// Slint(n): slice with size n
-// Slint(n, c): Slice with size n and capacity c
-func Slint(args ...int) []int {
-	switch len(args) {
-	case 0:
-		return []int{}
-	case 1:
-		return make([]int, args[0])
-	case 2:
-		return make([]int, args[0], args[1])
-	}
-	panic("Sli invalid args")
+	return res
 }
 
 // #endregion
