@@ -41,4 +41,12 @@ func (io *IO) ScanSliceInt(length int) []int {
 	return res
 }
 
+func (io *IO) YesNo(b bool) {
+	if b {
+		io.PrintLn("Yes")
+	} else {
+		io.PrintLn("No")
+	}
+}
+
 // #endregion
