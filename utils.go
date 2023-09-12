@@ -42,7 +42,7 @@ func (io *IO) ScanSliceInt(length int) []int {
 }
 
 func (io *IO) PrintlnSliceInt(s []int) {
-	tmp := len(s)-1
+	tmp := len(s) - 1
 	if tmp < 0 {
 		io.Println()
 	} else {
@@ -53,12 +53,12 @@ func (io *IO) PrintlnSliceInt(s []int) {
 	}
 }
 
-func (io *IO) PrintlnYesNo(b bool) {
-	if b {
-		io.Println("Yes")
-	} else {
-		io.Println("No")
-	}
+func (io *IO) PrintlnYes() {
+	io.Println("Yes")
+}
+
+func (io *IO) PrintlnNo() {
+	io.Println("No")
 }
 
 // #endregion
