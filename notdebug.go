@@ -17,4 +17,4 @@ func main() {
 	solve(&io)
 }
 func (io *IO) Print(x ...any)   { fmt.Fprint(io.w, x...) }
-func (io *IO) PrintLn(x ...any) { fmt.Fprintln(io.w, x...) }
+func (io *IO) Println(x ...any) { fmt.Fprintln(io.w, x...) }

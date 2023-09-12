@@ -41,11 +41,23 @@ func (io *IO) ScanSliceInt(length int) []int {
 	return res
 }
 
-func (io *IO) PrintYesNo(b bool) {
-	if b {
-		io.PrintLn("Yes")
+func (io *IO) PrintlnSliceInt(s []int) {
+	tmp := len(s)-1
+	if tmp < 0 {
+		io.Println()
 	} else {
-		io.PrintLn("No")
+		for i := 0; i < len(s)-1; i++ {
+			io.Print(s[i], " ")
+		}
+		io.Println(s[tmp])
+	}
+}
+
+func (io *IO) PrintlnYesNo(b bool) {
+	if b {
+		io.Println("Yes")
+	} else {
+		io.Println("No")
 	}
 }
 
