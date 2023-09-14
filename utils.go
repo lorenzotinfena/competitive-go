@@ -3,6 +3,8 @@ package main
 import (
 	"bufio"
 	"fmt"
+
+	"github.com/lorenzotinfena/goji/collections"
 )
 
 // #region IO STUFF
@@ -37,6 +39,14 @@ func (io *IO) ScanSliceInt(length int) []int {
 	res := make([]int, length)
 	for i := 0; i < length; i++ {
 		res[i] = io.ScanInt()
+	}
+	return res
+}
+
+func (io *IO) ScanSlicePairInt(length int) []collections.Pair[int, int] {
+	res := make([]collections.Pair[int, int], length)
+	for i := 0; i < length; i++ {
+		res[i] = collections.MakePair(io.ScanInt(), io.ScanInt())
 	}
 	return res
 }
