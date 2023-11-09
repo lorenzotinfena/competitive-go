@@ -4,6 +4,7 @@ It currently supports only `github.com/lorenzotinfena/goji` library
 
 # Supported platforms
 - Codeforces
+- LeetCode
 
 # Usage
 For each problem:
