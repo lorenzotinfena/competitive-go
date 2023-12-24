@@ -16,5 +16,25 @@ func main() {
 	defer io.Flush()
 	solve(&io)
 }
-func (io *IO) Print(x ...any)   { fmt.Fprint(io.w, x...) }
-func (io *IO) Println(x ...any) { fmt.Fprintln(io.w, x...) }
+
+func (io *IO) Print(x ...any) {
+	for i := 0; i < len(x); i++ {
+		switch x[i].(type) {
+		case []byte:
+			x[i] = string(x[i].([]byte))
+		}
+	}
+
+	fmt.Fprint(io.w, x...)
+}
+
+func (io *IO) Println(x ...any) {
+	for i := 0; i < len(x); i++ {
+		switch x[i].(type) {
+		case []byte:
+			x[i] = string(x[i].([]byte))
+		}
+	}
+
+	fmt.Fprintln(io.w, x...)
+}

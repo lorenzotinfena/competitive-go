@@ -3,8 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-
-	"github.com/lorenzotinfena/goji/collections"
+	"strconv"
 )
 
 // #region IO STUFF
@@ -27,7 +26,7 @@ func (io *IO) ScanUInt() (x uint)     { fmt.Fscan(io.r, &x); return }
 func (io *IO) ScanFloat32() (x float32) { fmt.Fscan(io.r, &x); return }
 func (io *IO) ScanFloat64() (x float64) { fmt.Fscan(io.r, &x); return }
 
-func (io *IO) ScanString() (x string) { fmt.Fscan(io.r, &x); return }
+func (io *IO) ScanString() (x []byte) { fmt.Fscan(io.r, &x); return }
 
 func (io *IO) Flush() { io.w.Flush() }
 
@@ -43,10 +42,10 @@ func (io *IO) ScanSliceInt(length int) []int {
 	return res
 }
 
-func (io *IO) ScanSlicePairInt(length int) []collections.Pair[int, int] {
-	res := make([]collections.Pair[int, int], length)
+func (io *IO) ScanSlicePairInt(length int) []II {
+	res := make([]II, length)
 	for i := 0; i < length; i++ {
-		res[i] = collections.MakePair(io.ScanInt(), io.ScanInt())
+		res[i] = II{io.ScanInt(), io.ScanInt()}
 	}
 	return res
 }
@@ -69,6 +68,37 @@ func (io *IO) PrintlnYes() {
 
 func (io *IO) PrintlnNo() {
 	io.Println("No")
+}
+
+func Atoi(value string) int {
+	tmp, err := strconv.Atoi(value)
+	if err != nil {
+		panic(err)
+	}
+	return tmp
+}
+
+func Itoa(value int) string {
+	tmp := strconv.Itoa(value)
+	return tmp
+}
+
+type II struct {
+	First  int
+	Second int
+}
+
+type III struct {
+	First  int
+	Second int
+	Third  int
+}
+
+type IIII struct {
+	First  int
+	Second int
+	Third  int
+	Fourth int
 }
 
 // #endregion
