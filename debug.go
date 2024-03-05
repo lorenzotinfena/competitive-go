@@ -8,6 +8,16 @@ import (
 	"os"
 )
 
+type IO struct {
+	r *bufio.Reader
+	w *bufio.Writer
+}
+
+func (io *IO) nextByte() byte {
+	tmp, _ := io.r.ReadByte()
+	return tmp
+}
+
 func main() {
 	f, _ := os.Open("input.txt")
 	io := IO{
@@ -26,7 +36,8 @@ func (io *IO) Print(x ...any) {
 		}
 	}
 
-	fmt.Fprint(io.w, x...); io.Flush()
+	fmt.Fprint(io.w, x...)
+	io.Flush()
 }
 
 func (io *IO) Println(x ...any) {
@@ -37,5 +48,6 @@ func (io *IO) Println(x ...any) {
 		}
 	}
 
-	fmt.Fprintln(io.w, x...); io.Flush()
+	fmt.Fprintln(io.w, x...)
+	io.Flush()
 }

@@ -6,12 +6,32 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"syscall"
 )
+
+type IO struct {
+	rBuffer      []byte
+	rBufferIndex uint
+	w            *bufio.Writer
+}
+
+const rBufferSize = 4096
+
+func (io *IO) nextByte() byte {
+	if io.rBufferIndex == rBufferSize-1 {
+		syscall.Read(syscall.Stdin, io.rBuffer)
+		io.rBufferIndex = 0
+	} else {
+		io.rBufferIndex++
+	}
+	return io.rBuffer[io.rBufferIndex]
+}
 
 func main() {
 	io := IO{
-		w: bufio.NewWriter(os.Stdout),
-		r: bufio.NewReader(os.Stdin),
+		rBufferIndex: rBufferSize - 1,
+		rBuffer:      make([]byte, rBufferSize),
+		w:            bufio.NewWriter(os.Stdout),
 	}
 	defer io.Flush()
 	solve(&io)

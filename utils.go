@@ -1,27 +1,21 @@
 package main
 
 import (
-	"bufio"
 	"strconv"
 )
 
 // #region IO STUFF
 
-type IO struct {
-	r *bufio.Reader
-	w *bufio.Writer
-}
-
 func (io *IO) ScanInt() int {
 	var x int
 	var b byte
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '-' {
 			if b >= '0' {
 				x = int(b - '0')
 			} else {
-				b, _ = io.r.ReadByte()
+				b = io.nextByte()
 				x = -int(b - '0')
 			}
 			break
@@ -29,7 +23,7 @@ func (io *IO) ScanInt() int {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b < '0' {
 			break
 		}
@@ -43,12 +37,12 @@ func (io *IO) ScanInt8() int8 {
 	var x int8
 	var b byte
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '-' {
 			if b >= '0' {
 				x = int8(b - '0')
 			} else {
-				b, _ = io.r.ReadByte()
+				b = io.nextByte()
 				x = -int8(b - '0')
 			}
 			break
@@ -56,7 +50,7 @@ func (io *IO) ScanInt8() int8 {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b < '0' {
 			break
 		}
@@ -70,12 +64,12 @@ func (io *IO) ScanInt16() int16 {
 	var x int16
 	var b byte
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '-' {
 			if b >= '0' {
 				x = int16(b - '0')
 			} else {
-				b, _ = io.r.ReadByte()
+				b = io.nextByte()
 				x = -int16(b - '0')
 			}
 			break
@@ -83,7 +77,7 @@ func (io *IO) ScanInt16() int16 {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b < '0' {
 			break
 		}
@@ -97,12 +91,12 @@ func (io *IO) ScanInt32() int32 {
 	var x int32
 	var b byte
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '-' {
 			if b >= '0' {
 				x = int32(b - '0')
 			} else {
-				b, _ = io.r.ReadByte()
+				b = io.nextByte()
 				x = -int32(b - '0')
 			}
 			break
@@ -110,7 +104,7 @@ func (io *IO) ScanInt32() int32 {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b < '0' {
 			break
 		}
@@ -124,7 +118,7 @@ func (io *IO) ScanUInt() uint {
 	var x uint
 	var b byte
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '0' {
 			x = uint(b - '0')
 			break
@@ -132,7 +126,7 @@ func (io *IO) ScanUInt() uint {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b < '0' {
 			break
 		}
@@ -146,7 +140,7 @@ func (io *IO) ScanUInt8() uint8 {
 	var x uint8
 	var b byte
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '0' {
 			x = uint8(b - '0')
 			break
@@ -154,7 +148,7 @@ func (io *IO) ScanUInt8() uint8 {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b < '0' {
 			break
 		}
@@ -168,7 +162,7 @@ func (io *IO) ScanUInt16() uint16 {
 	var x uint16
 	var b byte
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '0' {
 			x = uint16(b - '0')
 			break
@@ -176,7 +170,7 @@ func (io *IO) ScanUInt16() uint16 {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b < '0' {
 			break
 		}
@@ -190,7 +184,7 @@ func (io *IO) ScanUInt32() uint32 {
 	var x uint32
 	var b byte
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '0' {
 			x = uint32(b - '0')
 			break
@@ -198,7 +192,7 @@ func (io *IO) ScanUInt32() uint32 {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b < '0' {
 			break
 		}
@@ -212,7 +206,7 @@ func (io *IO) ScanString() []byte {
 	var x []byte
 	var b byte
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '!' {
 			x = []byte{b}
 			break
@@ -220,7 +214,7 @@ func (io *IO) ScanString() []byte {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b < '!' {
 			break
 		}
@@ -235,11 +229,11 @@ func (io *IO) ScanFloat32() float32 {
 	var b byte
 	negative := false
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '-' {
 			if b < '0' {
 				negative = true
-				b, _ = io.r.ReadByte()
+				b = io.nextByte()
 			}
 			x = float32(b - '0')
 			break
@@ -247,7 +241,7 @@ func (io *IO) ScanFloat32() float32 {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b <= '.' {
 			break
 		}
@@ -256,7 +250,7 @@ func (io *IO) ScanFloat32() float32 {
 	if b == '.' {
 		tmp := float32(1)
 		for {
-			b, _ = io.r.ReadByte()
+			b = io.nextByte()
 			if b < '0' {
 				break
 			}
@@ -276,11 +270,11 @@ func (io *IO) ScanFloat64() float64 {
 	var b byte
 	negative := false
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b >= '-' {
 			if b < '0' {
 				negative = true
-				b, _ = io.r.ReadByte()
+				b = io.nextByte()
 			}
 			x = float64(b - '0')
 			break
@@ -288,7 +282,7 @@ func (io *IO) ScanFloat64() float64 {
 	}
 
 	for {
-		b, _ = io.r.ReadByte()
+		b = io.nextByte()
 		if b <= '.' {
 			break
 		}
@@ -297,7 +291,7 @@ func (io *IO) ScanFloat64() float64 {
 	if b == '.' {
 		tmp := float64(1)
 		for {
-			b, _ = io.r.ReadByte()
+			b = io.nextByte()
 			if b < '0' {
 				break
 			}
