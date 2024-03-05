@@ -209,7 +209,7 @@ func (io *IO) ScanUInt32() uint32 {
 }
 
 func (io *IO) ScanString() []byte {
-	x := []byte{}
+	var x []byte
 	var b byte
 	for {
 		b, _ = io.r.ReadByte()
