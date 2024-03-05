@@ -231,12 +231,84 @@ func (io *IO) ScanString() []byte {
 }
 
 func (io *IO) ScanFloat32() float32 {
-	x, _ := strconv.ParseFloat(string(io.ScanString()), 32)
-	return float32(x)
+	var x float32
+	var b byte
+	negative := false
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '-' {
+			if b < '0' {
+				negative = true
+				b, _ = io.r.ReadByte()
+			}
+			x = float32(b - '0')
+			break
+		}
+	}
+
+	for {
+		b, _ = io.r.ReadByte()
+		if b <= '.' {
+			break
+		}
+		x = (x * 10) + float32(b-'0')
+	}
+	if b == '.' {
+		tmp := float32(1)
+		for {
+			b, _ = io.r.ReadByte()
+			if b < '0' {
+				break
+			}
+			tmp *= 10
+			x = (x * 10) + float32(b-'0')
+		}
+		x /= tmp
+	}
+	if negative {
+		x = -x
+	}
+	return x
 }
 
 func (io *IO) ScanFloat64() float64 {
-	x, _ := strconv.ParseFloat(string(io.ScanString()), 32)
+	var x float64
+	var b byte
+	negative := false
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '-' {
+			if b < '0' {
+				negative = true
+				b, _ = io.r.ReadByte()
+			}
+			x = float64(b - '0')
+			break
+		}
+	}
+
+	for {
+		b, _ = io.r.ReadByte()
+		if b <= '.' {
+			break
+		}
+		x = (x * 10) + float64(b-'0')
+	}
+	if b == '.' {
+		tmp := float64(1)
+		for {
+			b, _ = io.r.ReadByte()
+			if b < '0' {
+				break
+			}
+			tmp *= 10
+			x = (x * 10) + float64(b-'0')
+		}
+		x /= tmp
+	}
+	if negative {
+		x = -x
+	}
 	return x
 }
 
