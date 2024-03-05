@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"strconv"
 )
 
@@ -13,20 +12,233 @@ type IO struct {
 	w *bufio.Writer
 }
 
-func (io *IO) ScanInt8() (x int8)   { fmt.Fscan(io.r, &x); return }
-func (io *IO) ScanInt16() (x int16) { fmt.Fscan(io.r, &x); return }
-func (io *IO) ScanInt32() (x int32) { fmt.Fscan(io.r, &x); return }
-func (io *IO) ScanInt() (x int)     { fmt.Fscan(io.r, &x); return }
+func (io *IO) ScanInt() int {
+	var x int
+	var b byte
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '-' {
+			if b >= '0' {
+				x = int(b - '0')
+			} else {
+				b, _ = io.r.ReadByte()
+				x = -int(b - '0')
+			}
+			break
+		}
+	}
 
-func (io *IO) ScanUInt8() (x uint8)   { fmt.Fscan(io.r, &x); return }
-func (io *IO) ScanUInt16() (x uint16) { fmt.Fscan(io.r, &x); return }
-func (io *IO) ScanUInt32() (x uint32) { fmt.Fscan(io.r, &x); return }
-func (io *IO) ScanUInt() (x uint)     { fmt.Fscan(io.r, &x); return }
+	for {
+		b, _ = io.r.ReadByte()
+		if b < '0' {
+			break
+		}
+		x = (x * 10) + int(b-'0')
+	}
 
-func (io *IO) ScanFloat32() (x float32) { fmt.Fscan(io.r, &x); return }
-func (io *IO) ScanFloat64() (x float64) { fmt.Fscan(io.r, &x); return }
+	return x
+}
 
-func (io *IO) ScanString() (x []byte) { fmt.Fscan(io.r, &x); return }
+func (io *IO) ScanInt8() int8 {
+	var x int8
+	var b byte
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '-' {
+			if b >= '0' {
+				x = int8(b - '0')
+			} else {
+				b, _ = io.r.ReadByte()
+				x = -int8(b - '0')
+			}
+			break
+		}
+	}
+
+	for {
+		b, _ = io.r.ReadByte()
+		if b < '0' {
+			break
+		}
+		x = (x * 10) + int8(b-'0')
+	}
+
+	return x
+}
+
+func (io *IO) ScanInt16() int16 {
+	var x int16
+	var b byte
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '-' {
+			if b >= '0' {
+				x = int16(b - '0')
+			} else {
+				b, _ = io.r.ReadByte()
+				x = -int16(b - '0')
+			}
+			break
+		}
+	}
+
+	for {
+		b, _ = io.r.ReadByte()
+		if b < '0' {
+			break
+		}
+		x = (x * 10) + int16(b-'0')
+	}
+
+	return x
+}
+
+func (io *IO) ScanInt32() int32 {
+	var x int32
+	var b byte
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '-' {
+			if b >= '0' {
+				x = int32(b - '0')
+			} else {
+				b, _ = io.r.ReadByte()
+				x = -int32(b - '0')
+			}
+			break
+		}
+	}
+
+	for {
+		b, _ = io.r.ReadByte()
+		if b < '0' {
+			break
+		}
+		x = (x * 10) + int32(b-'0')
+	}
+
+	return x
+}
+
+func (io *IO) ScanUInt() uint {
+	var x uint
+	var b byte
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '0' {
+			x = uint(b - '0')
+			break
+		}
+	}
+
+	for {
+		b, _ = io.r.ReadByte()
+		if b < '0' {
+			break
+		}
+		x = (x * 10) + uint(b-'0')
+	}
+
+	return x
+}
+
+func (io *IO) ScanUInt8() uint8 {
+	var x uint8
+	var b byte
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '0' {
+			x = uint8(b - '0')
+			break
+		}
+	}
+
+	for {
+		b, _ = io.r.ReadByte()
+		if b < '0' {
+			break
+		}
+		x = (x * 10) + uint8(b-'0')
+	}
+
+	return x
+}
+
+func (io *IO) ScanUInt16() uint16 {
+	var x uint16
+	var b byte
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '0' {
+			x = uint16(b - '0')
+			break
+		}
+	}
+
+	for {
+		b, _ = io.r.ReadByte()
+		if b < '0' {
+			break
+		}
+		x = (x * 10) + uint16(b-'0')
+	}
+
+	return x
+}
+
+func (io *IO) ScanUInt32() uint32 {
+	var x uint32
+	var b byte
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '0' {
+			x = uint32(b - '0')
+			break
+		}
+	}
+
+	for {
+		b, _ = io.r.ReadByte()
+		if b < '0' {
+			break
+		}
+		x = (x * 10) + uint32(b-'0')
+	}
+
+	return x
+}
+
+func (io *IO) ScanString() []byte {
+	x := []byte{}
+	var b byte
+	for {
+		b, _ = io.r.ReadByte()
+		if b >= '!' {
+			x = []byte{b}
+			break
+		}
+	}
+
+	for {
+		b, _ = io.r.ReadByte()
+		if b < '!' {
+			break
+		}
+		x = append(x, b)
+	}
+
+	return x
+}
+
+func (io *IO) ScanFloat32() float32 {
+	x, _ := strconv.ParseFloat(string(io.ScanString()), 32)
+	return float32(x)
+}
+
+func (io *IO) ScanFloat64() float64 {
+	x, _ := strconv.ParseFloat(string(io.ScanString()), 32)
+	return x
+}
 
 func (io *IO) Flush() { io.w.Flush() }
 
@@ -50,7 +262,7 @@ func (io *IO) ScanSlicePairInt(length int) []II {
 	return res
 }
 
-func (io *IO) PrintlnSliceInt(s []int) {
+func (io *IO) PrintlnSlice(s []any) {
 	tmp := len(s) - 1
 	if tmp < 0 {
 		io.Println()
@@ -71,16 +283,12 @@ func (io *IO) PrintlnNo() {
 }
 
 func Atoi(value string) int {
-	tmp, err := strconv.Atoi(value)
-	if err != nil {
-		panic(err)
-	}
+	tmp, _ := strconv.Atoi(value)
 	return tmp
 }
 
 func Itoa(value int) string {
-	tmp := strconv.Itoa(value)
-	return tmp
+	return strconv.Itoa(value)
 }
 
 type II struct {
