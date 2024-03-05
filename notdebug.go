@@ -15,7 +15,7 @@ type IO struct {
 	w            *bufio.Writer
 }
 
-const rBufferSize = 2 << 15
+const rBufferSize = 1 << 15
 
 func (io *IO) nextByte() byte {
 	if io.rBufferIndex == rBufferSize-1 {
