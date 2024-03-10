@@ -328,7 +328,19 @@ func (io *IO) ScanSlicePairInt(length int) []II {
 	return res
 }
 
-func (io *IO) PrintlnSlice(s []any) {
+func (io *IO) PrintlnSliceInt(s []int) {
+	tmp := len(s) - 1
+	if tmp < 0 {
+		io.Println()
+	} else {
+		for i := 0; i < len(s)-1; i++ {
+			io.Print(s[i], " ")
+		}
+		io.Println(s[tmp])
+	}
+}
+
+func (io *IO) PrintlnSliceUInt(s []uint) {
 	tmp := len(s) - 1
 	if tmp < 0 {
 		io.Println()
