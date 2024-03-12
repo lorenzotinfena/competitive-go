@@ -4,6 +4,14 @@ import (
 	"strconv"
 )
 
+type OPTIMIZATION_LEVEL int
+
+const (
+	Balanced OPTIMIZATION_LEVEL = iota
+	OptimizeTimeLimit
+	OptimizeMemoryLimit
+)
+
 // #region IO STUFF
 
 func (io *IO) ScanInt() int {

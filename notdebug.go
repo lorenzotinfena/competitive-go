@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"runtime/debug"
 	"syscall"
 )
 
@@ -34,6 +35,11 @@ func main() {
 		w:            bufio.NewWriter(os.Stdout),
 	}
 	defer io.Flush()
+	if optimizationLevel == OptimizeTimeLimit {
+		debug.SetGCPercent(-1)
+	} else if optimizationLevel == OptimizeMemoryLimit {
+		debug.SetGCPercent(1)
+	}
 	solve(&io)
 }
 
