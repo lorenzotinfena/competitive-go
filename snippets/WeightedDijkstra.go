@@ -6,16 +6,15 @@ import (
 	"github.com/lorenzotinfena/goji/collections/heap"
 )
 
-func main() {
-	// #region WeightedDijkstra
-	var n, start, end int
-	var adj [][]collections.Pair[int, int]
+func WeightedDijkstra() {
+	var _n, _start, _end int
+	var _adj [][]collections.Pair[int, int]
 
-	dijkstranodes := make([]*graph.DijkstraNode[int, int], n)
-	fibonaccihelper := make([][]*heap.FibonacciHeapNode[int], n)
+	dijkstranodes := make([]*graph.DijkstraNode[int, int], _n)
+	fibonaccihelper := make([][]*heap.FibonacciHeapNode[int], _n)
 	it := graph.WeightedDijkstra(
-		start,
-		func(i int) []collections.Pair[int, int] { return adj[i] },
+		_start,
+		func(i int) []collections.Pair[int, int] { return _adj[i] },
 		func(i int, dn *graph.DijkstraNode[int, int]) { dijkstranodes[i] = dn },
 		func(i int) *graph.DijkstraNode[int, int] {
 			return dijkstranodes[i]
@@ -29,7 +28,7 @@ func main() {
 	path := []int{-1}
 	for it.HasNext() {
 		tmp := it.Next()
-		if tmp.Vertex == end {
+		if tmp.Vertex == _end {
 			path = []int{}
 			for tmp != nil {
 				path = append(path, tmp.Vertex+1)
@@ -41,5 +40,4 @@ func main() {
 			break
 		}
 	}
-	// #endregion
 }
