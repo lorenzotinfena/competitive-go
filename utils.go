@@ -14,6 +14,20 @@ const (
 
 // #region IO STUFF
 
+func (io *IO) ScanLine() []byte {
+	x := []byte{}
+	var b byte
+	for {
+		b = io.nextByte()
+		if b <= '\n' {
+			break
+		}
+		x = append(x, b)
+	}
+
+	return x
+}
+
 func (io *IO) ScanInt() int {
 	var x int
 	var b byte
