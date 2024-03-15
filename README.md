@@ -13,8 +13,8 @@ For each problem:
 3. Install all tools suggested by vscode
 1. Copy paste an example testcase in `input.txt`
 2. Code and debug in `solution.go`
-    P.s. Use io for I/O operations and use "log" to print while debugging
-3. Run `Aggregate and copy` command and paste the self-contained code on your platform.
+    P.s. Use io for I/O operations
+3. Run `Aggregate and copy for {platform}` command and paste the self-contained code on your platform.
 
 If you want to solve multiple problems simultanously (like in contests) you can just backup your multiple `solution.go` somewhere.
 
