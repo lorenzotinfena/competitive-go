@@ -24,8 +24,17 @@ func main() {
 		w: bufio.NewWriter(os.Stdout),
 		r: bufio.NewReader(f),
 	}
-	defer io.Flush()
 	solve(&io)
+}
+
+func (io *IO) PrintNewLine() {
+	fmt.Fprintln(io.w)
+	io.Flush()
+}
+
+func (io *IO) PrintChar(b byte) {
+	fmt.Fprint(io.w, string([]byte{b}))
+	io.Flush()
 }
 
 func (io *IO) Print(x ...any) {
@@ -51,3 +60,5 @@ func (io *IO) Println(x ...any) {
 	fmt.Fprintln(io.w, x...)
 	io.Flush()
 }
+
+func (io *IO) Flush() { io.w.Flush() }

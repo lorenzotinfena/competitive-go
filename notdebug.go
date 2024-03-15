@@ -3,9 +3,6 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"runtime/debug"
 	"syscall"
 )
@@ -13,13 +10,14 @@ import (
 type IO struct {
 	rBuffer      []byte
 	rBufferIndex uint
-	w            *bufio.Writer
+	wBuffer      []byte
+	wBufferSize  uint
 }
 
-const rBufferSize = 1 << 15
+const ioBufferSize = 1 << 15
 
 func (io *IO) nextByte() byte {
-	if io.rBufferIndex == rBufferSize-1 {
+	if io.rBufferIndex == ioBufferSize-1 {
 		syscall.Read(syscall.Stdin, io.rBuffer)
 		io.rBufferIndex = 0
 	} else {
@@ -30,37 +28,123 @@ func (io *IO) nextByte() byte {
 
 func main() {
 	io := IO{
-		rBufferIndex: rBufferSize - 1,
-		rBuffer:      make([]byte, rBufferSize),
-		w:            bufio.NewWriter(os.Stdout),
+		rBufferIndex: ioBufferSize - 1,
+		rBuffer:      make([]byte, ioBufferSize),
+		wBuffer:      make([]byte, ioBufferSize*2),
 	}
-	defer io.Flush()
 	if optimizationLevel == OptimizeTimeLimit {
 		debug.SetGCPercent(-1)
 	} else if optimizationLevel == OptimizeMemoryLimit {
 		debug.SetGCPercent(1)
 	}
 	solve(&io)
+	io.Flush()
 }
 
-func (io *IO) Print(x ...any) {
-	for i := 0; i < len(x); i++ {
-		switch x[i].(type) {
-		case []byte:
-			x[i] = string(x[i].([]byte))
-		}
+func (io *IO) writeLargeBytes(b []byte) {
+	if len(b) > ioBufferSize {
+		syscall.Write(syscall.Stdout, b)
+		return
 	}
-
-	fmt.Fprint(io.w, x...)
+	for i := 0; i < len(b); i++ {
+		io.wBuffer[io.wBufferSize] = b[i]
+		io.wBufferSize++
+	}
+	if io.wBufferSize > ioBufferSize {
+		syscall.Write(syscall.Stdout, io.wBuffer[:io.wBufferSize])
+		io.wBufferSize = 0
+	}
 }
 
-func (io *IO) Println(x ...any) {
-	for i := 0; i < len(x); i++ {
-		switch x[i].(type) {
-		case []byte:
-			x[i] = string(x[i].([]byte))
-		}
+func (io *IO) writeSmallBytes(b []byte) {
+	for i := 0; i < len(b); i++ {
+		io.wBuffer[io.wBufferSize] = b[i]
+		io.wBufferSize++
 	}
+	if io.wBufferSize > ioBufferSize {
+		syscall.Write(syscall.Stdout, io.wBuffer[:io.wBufferSize])
+		io.wBufferSize = 0
+	}
+}
 
-	fmt.Fprintln(io.w, x...)
+func (io *IO) PrintChar(b byte) {
+	io.wBuffer[io.wBufferSize] = b
+	io.wBufferSize++
+	if io.wBufferSize > ioBufferSize {
+		syscall.Write(syscall.Stdout, io.wBuffer[:io.wBufferSize])
+		io.wBufferSize = 0
+	}
+}
+
+func (io *IO) Flush() {
+	syscall.Write(syscall.Stdout, io.wBuffer[:io.wBufferSize])
+	io.wBufferSize = 0
+}
+
+func (io *IO) PrintNewLine() {
+	io.wBuffer[io.wBufferSize] = '\n'
+	io.wBufferSize++
+	if io.wBufferSize > ioBufferSize {
+		syscall.Write(syscall.Stdout, io.wBuffer[:io.wBufferSize])
+		io.wBufferSize = 0
+	}
+}
+
+func (io *IO) Print(x any) {
+	switch x := x.(type) {
+	case string:
+		io.writeLargeBytes([]byte(x))
+	case []byte:
+		io.writeLargeBytes(x)
+	case int:
+		io.writeSmallBytes(Itoa(x))
+	case int8:
+		io.writeSmallBytes(Itoa(x))
+	case int16:
+		io.writeSmallBytes(Itoa(x))
+	case int32:
+		io.writeSmallBytes(Itoa(x))
+	case int64:
+		io.writeSmallBytes(Itoa(x))
+	case uint:
+		io.writeSmallBytes(Uitoa(x))
+	case uint8:
+		io.writeSmallBytes(Uitoa(x))
+	case uint16:
+		io.writeSmallBytes(Uitoa(x))
+	case uint32:
+		io.writeSmallBytes(Uitoa(x))
+	case uint64:
+		io.writeSmallBytes(Uitoa(x))
+	}
+}
+
+func (io *IO) Println(x any) {
+	switch x := x.(type) {
+	case string:
+		io.writeLargeBytes([]byte(x))
+	case []byte:
+		io.writeLargeBytes(x)
+	case int:
+		io.writeSmallBytes(Itoa(x))
+	case int8:
+		io.writeSmallBytes(Itoa(x))
+	case int16:
+		io.writeSmallBytes(Itoa(x))
+	case int32:
+		io.writeSmallBytes(Itoa(x))
+	case int64:
+		io.writeSmallBytes(Itoa(x))
+	case uint:
+		io.writeSmallBytes(Uitoa(x))
+	case uint8:
+		io.writeSmallBytes(Uitoa(x))
+	case uint16:
+		io.writeSmallBytes(Uitoa(x))
+	case uint32:
+		io.writeSmallBytes(Uitoa(x))
+	case uint64:
+		io.writeSmallBytes(Uitoa(x))
+	}
+	io.PrintNewLine()
 }

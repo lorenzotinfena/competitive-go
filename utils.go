@@ -328,8 +328,6 @@ func (io *IO) ScanFloat64() float64 {
 	return x
 }
 
-func (io *IO) Flush() { io.w.Flush() }
-
 // #endregion
 
 // #region USEFUL FUNCTIONS
@@ -353,10 +351,11 @@ func (io *IO) ScanSlicePairInt(length int) []II {
 func (io *IO) PrintlnSliceInt(s []int) {
 	tmp := len(s) - 1
 	if tmp < 0 {
-		io.Println()
+		io.PrintNewLine()
 	} else {
 		for i := 0; i < len(s)-1; i++ {
-			io.Print(s[i], " ")
+			io.Print(s[i])
+			io.PrintChar(' ')
 		}
 		io.Println(s[tmp])
 	}
@@ -364,11 +363,12 @@ func (io *IO) PrintlnSliceInt(s []int) {
 
 func (io *IO) PrintlnSliceUInt(s []uint) {
 	tmp := len(s) - 1
-	if tmp < 0 {
-		io.Println()
+	if len(s) == 0 {
+		io.PrintNewLine()
 	} else {
 		for i := 0; i < len(s)-1; i++ {
-			io.Print(s[i], " ")
+			io.Print(s[i])
+			io.PrintChar(' ')
 		}
 		io.Println(s[tmp])
 	}
@@ -387,8 +387,62 @@ func Atoi(value string) int {
 	return tmp
 }
 
-func Itoa(value int) string {
-	return strconv.Itoa(value)
+func Itoa[T int | int8 | int16 | int32 | int64](value T) []byte {
+	if value == 0 {
+		return []byte{'0'}
+	}
+	digits := 0
+	value1 := value
+	for {
+		digits++
+		value1 /= 10
+		if value1 == 0 {
+			break
+		}
+	}
+	var res []byte
+	if value > 0 {
+		res = make([]byte, digits)
+		digits--
+	} else {
+		value = -value
+		res = make([]byte, digits+1)
+		res[0] = '-'
+	}
+	for {
+		res[digits] = byte('0' + value%10)
+		value /= 10
+		if value == 0 {
+			break
+		}
+		digits--
+	}
+	return res
+}
+
+func Uitoa[T uint | uint8 | uint16 | uint32 | uint64](value T) []byte {
+	if value == 0 {
+		return []byte{'0'}
+	}
+	digits := -1
+	value1 := value
+	for {
+		digits++
+		value1 /= 10
+		if value1 == 0 {
+			break
+		}
+	}
+	res := make([]byte, digits+1)
+	for {
+		res[digits] = byte('0' + value%10)
+		value /= 10
+		if value == 0 {
+			break
+		}
+		digits--
+	}
+	return res
 }
 
 type II struct {
