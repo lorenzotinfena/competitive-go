@@ -36,22 +36,26 @@ func (io *IO) ScanInt() int {
 		if b >= '-' {
 			if b >= '0' {
 				x = int(b - '0')
+				for {
+					b = io.nextByte()
+					if b < '0' {
+						break
+					}
+					x = (x * 10) + int(b-'0')
+				}
 			} else {
-				b = io.nextByte()
-				x = -int(b - '0')
+				x = -int(io.nextByte() - '0')
+				for {
+					b = io.nextByte()
+					if b < '0' {
+						break
+					}
+					x = (x * 10) - int(b-'0')
+				}
 			}
 			break
 		}
 	}
-
-	for {
-		b = io.nextByte()
-		if b < '0' {
-			break
-		}
-		x = (x * 10) + int(b-'0')
-	}
-
 	return x
 }
 
@@ -63,20 +67,25 @@ func (io *IO) ScanInt8() int8 {
 		if b >= '-' {
 			if b >= '0' {
 				x = int8(b - '0')
+				for {
+					b = io.nextByte()
+					if b < '0' {
+						break
+					}
+					x = (x * 10) + int8(b-'0')
+				}
 			} else {
-				b = io.nextByte()
-				x = -int8(b - '0')
+				x = -int8(io.nextByte() - '0')
+				for {
+					b = io.nextByte()
+					if b < '0' {
+						break
+					}
+					x = (x * 10) - int8(b-'0')
+				}
 			}
 			break
 		}
-	}
-
-	for {
-		b = io.nextByte()
-		if b < '0' {
-			break
-		}
-		x = (x * 10) + int8(b-'0')
 	}
 
 	return x
@@ -90,20 +99,25 @@ func (io *IO) ScanInt16() int16 {
 		if b >= '-' {
 			if b >= '0' {
 				x = int16(b - '0')
+				for {
+					b = io.nextByte()
+					if b < '0' {
+						break
+					}
+					x = (x * 10) + int16(b-'0')
+				}
 			} else {
-				b = io.nextByte()
-				x = -int16(b - '0')
+				x = -int16(io.nextByte() - '0')
+				for {
+					b = io.nextByte()
+					if b < '0' {
+						break
+					}
+					x = (x * 10) - int16(b-'0')
+				}
 			}
 			break
 		}
-	}
-
-	for {
-		b = io.nextByte()
-		if b < '0' {
-			break
-		}
-		x = (x * 10) + int16(b-'0')
 	}
 
 	return x
@@ -117,20 +131,25 @@ func (io *IO) ScanInt32() int32 {
 		if b >= '-' {
 			if b >= '0' {
 				x = int32(b - '0')
+				for {
+					b = io.nextByte()
+					if b < '0' {
+						break
+					}
+					x = (x * 10) + int32(b-'0')
+				}
 			} else {
-				b = io.nextByte()
-				x = -int32(b - '0')
+				x = -int32(io.nextByte() - '0')
+				for {
+					b = io.nextByte()
+					if b < '0' {
+						break
+					}
+					x = (x * 10) - int32(b-'0')
+				}
 			}
 			break
 		}
-	}
-
-	for {
-		b = io.nextByte()
-		if b < '0' {
-			break
-		}
-		x = (x * 10) + int32(b-'0')
 	}
 
 	return x
