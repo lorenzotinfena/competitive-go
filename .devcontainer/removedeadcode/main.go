@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/lorenzotinfena/competitive-go/.devcontainer/detect_deadcode"
+	"main/detect_deadcode"
 )
 
 func main() {
