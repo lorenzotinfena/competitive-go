@@ -25,3 +25,4 @@ All the code (main package + non standard libraries imported (testing files are 
 - Should be formatted with gofmt
 - Shouldn't import packages with a local path
 - Shouldn't import standard libraries with the dot '.'
+- Between any first line of a function/method and the first previous empty line or the first line there must be either nothing either the comment related to that function/method
