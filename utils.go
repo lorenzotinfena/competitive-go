@@ -359,6 +359,17 @@ func (io *IO) ScanSliceInt(length int) []int {
 	return res
 }
 
+func (io *IO) ScanSliceSliceInt(length1 int, length2 int) [][]int {
+	res := make([][]int, length1)
+	for i := 0; i < length1; i++ {
+		res[i] = make([]int, length2)
+		for j := 0; j < length2; j++ {
+			res[i][j] = io.ScanInt()
+		}
+	}
+	return res
+}
+
 func (io *IO) ScanSlicePairInt(length int) []II {
 	res := make([]II, length)
 	for i := 0; i < length; i++ {
