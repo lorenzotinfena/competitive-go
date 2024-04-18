@@ -1,4 +1,4 @@
-//go:build !debug
+//go:build notdebug
 
 package main
 
@@ -9,7 +9,8 @@ import (
 
 type IO struct {
 	rBuffer      []byte
-	rBufferIndex uint
+	rBufferIndex int
+	rBufferEnd   int
 	wBuffer      []byte
 	wBufferSize  uint
 }
@@ -17,18 +18,18 @@ type IO struct {
 const ioBufferSize = 1 << 15
 
 func (io *IO) nextByte() byte {
-	if io.rBufferIndex == ioBufferSize-1 {
-		syscall.Read(syscall.Stdin, io.rBuffer)
+	io.rBufferIndex++
+	if io.rBufferIndex == io.rBufferEnd {
+		io.rBufferEnd, _ = syscall.Read(syscall.Stdin, io.rBuffer)
 		io.rBufferIndex = 0
-	} else {
-		io.rBufferIndex++
 	}
 	return io.rBuffer[io.rBufferIndex]
 }
 
 func main() {
 	io := IO{
-		rBufferIndex: ioBufferSize - 1,
+		rBufferIndex: -1,
+		rBufferEnd:   0,
 		rBuffer:      make([]byte, ioBufferSize),
 		wBuffer:      make([]byte, ioBufferSize*2),
 	}
